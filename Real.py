@@ -4,6 +4,9 @@ import pywhatkit
 import datetime
 import wikipedia
 import pyjokes
+from Pause import *
+from Press import *
+from time import sleep
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
@@ -41,17 +44,20 @@ def run_alexa():
     elif 'time' in command:
         time = datetime.datetime.now().strftime('%I:%M %p')
         talk('Current time is ' + time)
-    elif 'who the heck is' in command:
-        person = command.replace('who the heck is', '')
+    elif 'who is' in command:
+        person = command.replace('who is', '')
         info = wikipedia.summary(person, 1)
         print(info)
         talk(info)
-    elif 'date' in command:
-        talk('sorry, I have a headache')
-    elif 'are you single' in command:
-        talk('I am in a relationship with wifi')
     elif 'joke' in command:
         talk(pyjokes.get_joke())
+    elif 'start hot potato' in command:
+        talk('Lets play!')
+        pywhatkit.playonyt('Najbolje dečije pesme - Pet malih majmuna, Kad si srećan i druge | Pesme za decu')
+        sleep(6)
+        click()
+        pauza()
+
     else:
         talk('Please say the command again.')
 
