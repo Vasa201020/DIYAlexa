@@ -5,13 +5,16 @@ import datetime
 import wikipedia
 import pyjokes
 from Pause import *
-from Press import *
+from Emailer import *
 from time import sleep
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[2].id)
+engine.setProperty('voice', voices[1].id)
+stopping = 0
+
+
 
 
 def talk(text):
@@ -20,9 +23,11 @@ def talk(text):
 
 
 def take_command():
+    command = ''
     try:
         with sr.Microphone() as source:
             print('listening...')
+            talk('I am listening')
             voice = listener.listen(source)
             command = listener.recognize_google(voice)
             command = command.lower()
@@ -36,11 +41,34 @@ def take_command():
 
 def run_alexa():
     command = take_command()
+    again = ('Please say the command again.')
     print(command)
     if 'play' in command:
         song = command.replace('play', '')
         talk('playing ' + song)
         pywhatkit.playonyt(song)
+    elif 'hello' in command:
+        talk('Hello there')
+    elif 'email number one' in command:
+        talk('Sending...')
+        emailSender(1)
+        talk('Sent!')
+    elif 'email number 2' in command:
+        talk('Sending...')
+        emailSender(2)
+        talk('Sent!')
+    elif 'email number two' in command:
+        talk('Sending...')
+        emailSender(2)
+        talk('Sent!')
+    elif 'email number three' in command:
+        talk('Sending...')
+        emailSender(3)
+        talk('Sent!')
+    elif 'email number for' in command:
+        talk('Sending...')
+        emailSender(4)
+        talk('Sent!')
     elif 'time' in command:
         time = datetime.datetime.now().strftime('%I:%M %p')
         talk('Current time is ' + time)
@@ -54,13 +82,13 @@ def run_alexa():
     elif 'start hot potato' in command:
         talk('Lets play!')
         pywhatkit.playonyt('Najbolje dečije pesme - Pet malih majmuna, Kad si srećan i druge | Pesme za decu')
-        sleep(6)
-        click()
+        sleep(5)
         pauza()
-
+    elif 'stop stop stop' in command:
+        stopping = 1
     else:
-        talk('Please say the command again.')
+        talk(again)
+        print(again)
 
-
-while True:
+while stopping == 0:
     run_alexa()

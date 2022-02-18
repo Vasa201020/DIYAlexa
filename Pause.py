@@ -17,4 +17,3 @@ def pauza():
         time.sleep(2)
 
         mouse.click('left')
-
